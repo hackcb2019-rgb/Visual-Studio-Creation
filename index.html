@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher's Corner | Portal for Didi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-grad: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            --secondary-grad: linear-gradient(135deg, #4E65FF, #92EFFD);
+            --accent-grad: linear-gradient(135deg, #A8E6CF, #3D84A8);
+            --bg-color: #F8F9FA;
+            --card-bg: #FFFFFF;
+            --text-dark: #2D3436;
+            --text-muted: #636E72;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* Hero Header */
+        header {
+            background: var(--primary-grad);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: -30px auto 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Quote Banner */
+        .quote-card {
+            background: var(--card-bg);
+            border-left: 6px solid #FF6B6B;
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-card p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #2C3E50;
+        }
+
+        .quote-card span {
+            display: block;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #FF6B6B;
+            font-size: 0.9rem;
+        }
+
+        /* Grid Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Color Accents for Cards */
+        .card-1 h2 { color: #FF6B6B; }
+        .card-2 h2 { color: #4E65FF; }
+        .card-3 h2 { color: #11998e; }
+
+        /* Input Controls */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #4E65FF;
+        }
+
+        button.btn-add {
+            background: var(--secondary-grad);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        button.btn-add:hover {
+            opacity: 0.9;
+        }
+
+        /* Task List */
+        ul {
+            list-style: none;
+        }
+
+        li {
+            background: #F8F9FA;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        li.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .btn-delete {
+            background: #FF7675;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* Notice Board */
+        .appreciation-box {
+            background: linear-gradient(135deg, #FFF6E5, #FFE3E3);
+            border: 1px solid #FFD3B6;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .appreciation-box p {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .appreciation-box strong {
+            color: #D63031;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Welcome, Respected Didi! 🙏</h1>
+        <p>"A good teacher is like a candle — it consumes itself to light the way for others."</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- Quote Section -->
+        <div class="quote-card">
+            <p id="daily-quote">"Guru Brahma, Guru Vishnu, Guru Devo Maheshwara..."</p>
+            <span>— Inspired by Hindu Mythology</span>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            
+            <!-- Quick Planner Card -->
+            <div class="card card-1">
+                <h2>📚 Lesson Planner</h2>
+                <div class="input-group">
+                    <input type="text" id="taskInput" placeholder="Add topic for today's class...">
+                    <button class="btn-add" onclick="addTask()">Add</button>
+                </div>
+                <ul id="taskList">
+                    <li>Review Chapter 4 Homework <button class="btn-delete" onclick="this.parentElement.remove()">Done</button></li>
+                    <li>Conduct Class Quiz <button class="btn-delete" onclick="this.parentElement.remove()">Done</button></li>
+                </ul>
+            </div>
+
+            <!-- Student Appreciation Notes -->
+            <div class="card card-2">
+                <h2>❤️ Student Wishes</h2>
+                <div class="appreciation-box">
+                    <p>"Thank you Didi for explaining concepts so easily and always encouraging us!"</p>
+                    <strong>— By Dev</strong>
+                </div>
+                <div class="appreciation-box">
+                    <p>"Your guidance inspired me a lot to aim higher."</p>
+                    <strong>— By Debu</strong>
+                </div>
+            </div>
+
+            <!-- Quick Reminders -->
+            <div class="card card-3">
+                <h2>💡 Teacher's Reflection</h2>
+                <p style="font-size: 0.95rem; color: #555; line-height: 1.6;">
+                    Take a deep breath! Every life you touch today builds the future of tomorrow. Remember to take short breaks and sip some hot chai! ☕
+                </p>
+            </div>
+
+        </div>
+
+        <footer>
+            Crafted with respect & admiration for You ✨
+        </footer>
+    </div>
+
+    <script>
+        // Rotating Quotes array for female teachers
+        const quotes = [
+            '"Guru Devo Bhava — Thank you Ma\'am for being our guiding light every day."',
+            '"Teaching is not a profession; it is a passion to build the nation."',
+            '"The best teachers teach from the heart, not from the book."',
+            '"Your warmth, patience, and wisdom make learning a joyful journey for every student."'
+        ];
+
+        // Pick a random quote on load
+        document.getElementById('daily-quote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+        // Dynamic task planner logic
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const taskText = input.value.trim();
+
+            if (taskText === "") {
+                alert("Please write a topic or task!");
+                return;
+            }
+
+            const ul = document.getElementById('taskList');
+            const li = document.createElement('li');
+            li.innerHTML = `${taskText} <button class="btn-delete" onclick="this.parentElement.remove()">Done</button>`;
+            
+            ul.appendChild(li);
+            input.value = "";
+        }
+    </script>
+</body>
+</html>
