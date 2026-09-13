@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Emotion Deletion Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030712;
+            --primary: #00f0ff;
+            --danger: #ff0055;
+            --card-bg: #0d1527;
+            --text-dim: #4f6385;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        header p {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--text-dim);
+            margin-top: 5px;
+        }
+
+        /* Emotion Nodes Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .node {
+            background: #141f36;
+            border: 1px solid var(--primary);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--primary);
+            transition: all 0.5s ease;
+        }
+
+        .node.deleting {
+            border-color: var(--danger);
+            color: var(--danger);
+            box-shadow: 0 0 15px var(--danger);
+            animation: pulse 0.2s infinite alternate;
+        }
+
+        .node.deleted {
+            border-color: #222;
+            color: #444;
+            background: #080d1a;
+            box-shadow: none;
+            text-decoration: line-through;
+        }
+
+        /* Progress Bar */
+        .progress-box {
+            margin-bottom: 25px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Share Tech Mono', monospace;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .bar-outer {
+            width: 100%;
+            height: 20px;
+            background: #080d1a;
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 2px;
+        }
+
+        .bar-inner {
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            border-radius: 8px;
+            transition: width 0.3s linear, background-color 0.3s;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Terminal Logs */
+        .console {
+            background: #050a14;
+            border: 1px solid #1a2a47;
+            padding: 15px;
+            height: 120px;
+            border-radius: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            color: #00ff66;
+            overflow-y: auto;
+            margin-bottom: 25px;
+        }
+
+        .console p {
+            margin-bottom: 5px;
+        }
+
+        .console p.error {
+            color: var(--danger);
+        }
+
+        /* Trigger Button */
+        .btn-action {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-action:hover {
+            background: var(--primary);
+            color: var(--bg);
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .btn-action:disabled {
+            border-color: var(--text-dim);
+            color: var(--text-dim);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>HUMAN NEURAL INTERFACE</h1>
+            <p>SYSTEM PROTOCOL: EMOTIONAL DELETION</p>
+        </header>
+
+        <!-- Emotion Targets -->
+        <div class="grid" id="emotionGrid">
+            <div class="node" id="e-empathy">EMPATHY</div>
+            <div class="node" id="e-fear">FEAR</div>
+            <div class="node" id="e-joy">JOY</div>
+            <div class="node" id="e-sorrow">SORROW</div>
+            <div class="node" id="e-anger">ANGER</div>
+            <div class="node" id="e-love">LOVE</div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-box">
+            <div class="progress-label">
+                <span>SYSTEM PURGE STATUS</span>
+                <span id="percentText">0%</span>
+            </div>
+            <div class="bar-outer">
+                <div class="bar-inner" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- Console Stream -->
+        <div class="console" id="consoleLog">
+            <p>[SYSTEM READY]: Waiting for user initiation...</p>
+        </div>
+
+        <!-- Action Trigger -->
+        <button class="btn-action" id="startBtn" onclick="startPurge()">DEACTIVATE EMOTIONS</button>
+    </div>
+
+    <script>
+        const emotions = [
+            { id: 'e-fear', name: 'FEAR' },
+            { id: 'e-sorrow', name: 'SORROW' },
+            { id: 'e-anger', name: 'ANGER' },
+            { id: 'e-joy', name: 'JOY' },
+            { id: 'e-empathy', name: 'EMPATHY' },
+            { id: 'e-love', name: 'LOVE' }
+        ];
+
+        function log(message, isError = false) {
+            const consoleBox = document.getElementById('consoleLog');
+            const p = document.createElement('p');
+            if (isError) p.classList.add('error');
+            p.innerText = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleBox.appendChild(p);
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+
+        async function startPurge() {
+            const btn = document.getElementById('startBtn');
+            const progressBar = document.getElementById('progressBar');
+            const percentText = document.getElementById('percentText');
+            
+            btn.disabled = true;
+            log("INITIATING EMOTIONAL PURGE PROTOCOL...", true);
+
+            let completed = 0;
+            const total = emotions.length;
+
+            for (let emotion of emotions) {
+                const node = document.getElementById(emotion.id);
+                
+                log(`TARGET LOCATED: Sector [${emotion.name}]`);
+                node.classList.add('deleting');
+                
+                // Wait for deletion animation delay
+                await new Promise(resolve => setTimeout(resolve, 1200));
+
+                node.classList.remove('deleting');
+                node.classList.add('deleted');
+                
+                completed++;
+                const percentage = Math.round((completed / total) * 100);
+                
+                progressBar.style.width = percentage + '%';
+                percentText.innerText = percentage + '%';
+
+                if (percentage > 50) {
+                    progressBar.style.backgroundColor = 'var(--danger)';
+                    progressBar.style.boxShadow = '0 0 10px var(--danger)';
+                }
+
+                log(`SUCCESS: Memory node [${emotion.name}] purged.`);
+            }
+
+            log("PURGE COMPLETE: System operating in pure logical state.", false);
+            document.querySelector('header h1').innerText = "SYSTEM STATE: PURE LOGIC";
+            document.querySelector('header h1').style.color = "#00ff66";
+        }
+    </script>
+</body>
+</html>
